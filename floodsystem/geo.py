@@ -39,8 +39,8 @@ def rivers_with_station(stations):
 
     for i in stations:
         rivers_with_station.append(i.river)
-
-return rivers_with_station
+    
+    return rivers_with_station
 
 
 def stations_by_river(stations):
@@ -53,8 +53,8 @@ def stations_by_river(stations):
             if j.river == i:
                 station_list.append(j.name)
 
-        stations_on_river[j] = station_list 
-
+        stations_on_river[i] = station_list 
+        
     return stations_on_river
 
 
