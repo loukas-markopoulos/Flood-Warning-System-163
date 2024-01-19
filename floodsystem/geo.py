@@ -10,6 +10,7 @@ from .utils import sorted_by_key  # noqa
 from haversine import haversine
 
 
+# C
 def stations_within_radius(stations, centre, r):
     close_stations = []
     for i in stations:
@@ -18,21 +19,42 @@ def stations_within_radius(stations, centre, r):
     close_stations.sort()
     return close_stations
 
+
+# B
 def stations_by_distance(stations, p):
-     #create list
+
     station_distance = []
-
-
-    #calculate distance of stations in station(MonitoringStation) to p
-    #create tuple of (station(MonitoringStation), distance)
-    #append tuple to the station_distance list
-    #utils.sort_by_key
-
 
     for i in stations:
         d = haversine(i.coord, p)
         tuple = (i.name, i.town, d)
         station_distance.append(tuple)
 
-
     return sorted_by_key(station_distance, 2)
+
+
+# D
+def rivers_with_station(stations):
+    rivers_with_station = set()
+
+    for i in stations:
+        rivers_with_station.append(i.river)
+
+return rivers_with_station
+
+
+def stations_by_river(stations):
+
+    stations_on_river = {}
+
+    for i in rivers_with_station:
+        station_list = []
+        for j in stations:
+            if j.river == i:
+                station_list.append(j.name)
+
+        stations_on_river[j] = station_list 
+
+    return stations_on_river
+
+
