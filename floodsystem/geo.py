@@ -41,6 +41,7 @@ def rivers_with_station(stations):
         rivers.add(i.river)
     
     rivers_list = list(rivers)
+    rivers_list.sort()
     return rivers_list
 
 
@@ -61,3 +62,30 @@ def stations_by_river(stations):
     return stations_on_river
 
 
+# E
+def rivers_by_station_number(stations, N):
+    #create list for tuples
+    #create tuple of (dictionary key, length of dictionary value)
+    #add tuple to list
+    #order list using function from before
+
+    stations_on_river = stations_by_river(stations)
+
+    river_statnumber = []
+
+    for river in stations_on_river:
+        tuple = (river, len(stations_on_river[river]))
+        river_statnumber.append(tuple)
+    
+    sorted_by_key(river_statnumber, 1)
+
+    i = 1
+    while river_statnumber[-N][1] == river_statnumber[-(N + i)][1]:
+        i += 1
+
+    final_list = []
+
+    for j in range(N + i):
+        final_list.append(river_statnumber[j])
+    
+    print(f'{final_list}')

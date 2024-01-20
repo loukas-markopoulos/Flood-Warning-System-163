@@ -5,8 +5,6 @@ from floodsystem.stationdata import build_station_list
 def run():
 
     stations = build_station_list()
-    rivers = rivers_with_station(stations)
-    rivers.sort()
 
     print(f'{len(rivers_with_station(stations))} stations. First 10 - {rivers[:10]}')
 
