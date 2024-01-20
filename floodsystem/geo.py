@@ -49,13 +49,14 @@ def stations_by_river(stations):
     stations_on_river = {}
     rivers = rivers_with_station(stations)
 
-    for i in rivers:
+    for i in range(len(rivers)):
         station_list = []
         for j in stations:
             if j.river == rivers[i]:
                 station_list.append(j.name)
 
-        stations_on_river[rivers[i]] = station_list 
+        ordered_station_list = sorted(station_list)
+        stations_on_river[rivers[i]] = ordered_station_list
         
     return stations_on_river
 

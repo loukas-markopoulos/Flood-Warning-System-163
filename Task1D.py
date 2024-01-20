@@ -11,7 +11,7 @@ def run():
     print(f'{len(rivers_with_station(stations))} stations. First 10 - {rivers[:10]}')
 
 
-    stations_on_river = rivers_with_station(stations)
+    stations_on_river = stations_by_river(stations)
 
     print(f'{stations_on_river["River Aire"]}')
     print(f'{stations_on_river["River Cam"]}')
