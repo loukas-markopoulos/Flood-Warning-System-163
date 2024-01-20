@@ -11,12 +11,16 @@ from haversine import haversine
 
 
 # C
+#returns a list of all stations (type MonitoringStation) within radius r of a geographic coordinate x
 def stations_within_radius(stations, centre, r):
+
     close_stations = []
+
     for i in stations:
         if haversine(centre, i.coord) < r:
             close_stations.append(i.name)
     close_stations.sort()
+
     return close_stations
 
 
@@ -77,15 +81,16 @@ def rivers_by_station_number(stations, N):
         tuple = (river, len(stations_on_river[river]))
         river_statnumber.append(tuple)
     
-    sorted_by_key(river_statnumber, 1)
+    sorted_river_statnumber = sorted_by_key(river_statnumber, 1)
 
     i = 1
-    while river_statnumber[-N][1] == river_statnumber[-(N + i)][1]:
+    while sorted_river_statnumber[-N][1] == sorted_river_statnumber[-(N + i)][1]:
         i += 1
+
 
     final_list = []
 
-    for j in range(N + i):
-        final_list.append(river_statnumber[j])
+    for j in range(N + i - 1):
+        final_list.append(sorted_river_statnumber[- j - 1])
     
     print(f'{final_list}')
