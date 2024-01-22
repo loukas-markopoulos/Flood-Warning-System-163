@@ -6,7 +6,6 @@ for manipulating/modifying station data
 
 """
 
-
 class MonitoringStation:
     """This class represents a river level monitoring station"""
 
@@ -30,6 +29,7 @@ class MonitoringStation:
 
         self.latest_level = None
 
+
     def __repr__(self):
         d = "Station name:     {}\n".format(self.name)
         d += "   id:            {}\n".format(self.station_id)
@@ -40,7 +40,7 @@ class MonitoringStation:
         d += "   typical range: {}".format(self.typical_range)
         return d
     
-    #F
+    #1F
     def typical_range_consistent(self):
 
         #checks for consistency - no data or typical high range < typical low range
@@ -48,10 +48,21 @@ class MonitoringStation:
         if self.typical_range is None or self.typical_range[1] - self.typical_range[0] < 0:
             in_range = False
 
-
         return in_range
+    
+    #2B
+    def relative_water_level(self):
+        
+        if MonitoringStation.typical_range_consistent(self) is True and self.latest_level is not None:
+            ratio = (self.latest_level - self.typical_range[0]) / (self.typical_range[1] - self.typical_range[0])
+            print(ratio)
+        else:
+            ratio = "No value"
+
+        return ratio
 
 
+#1F
 def inconsistent_typical_range_stations(stations):
 
     inconsistent_stations_list = []
