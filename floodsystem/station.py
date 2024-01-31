@@ -55,9 +55,8 @@ class MonitoringStation:
         
         if MonitoringStation.typical_range_consistent(self) is True and self.latest_level is not None:
             ratio = (self.latest_level - self.typical_range[0]) / (self.typical_range[1] - self.typical_range[0])
-            print(ratio)
         else:
-            ratio = "No value"
+            ratio = None
 
         return ratio
 
