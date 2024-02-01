@@ -18,8 +18,11 @@ def stations_over_level_threshold(stations, tol):
 # 2C
 
 def stations_highest_rel_level(stations, N):
-    sorted_list = stations_over_level_threshold(stations, 0.0)
+    list = stations_over_level_threshold(stations, 0.0)
     for i in range(N):
-        print(f'{sorted_list[i][0]} {sorted_list[i][1]}')
+        print(f'{list[i][0]} {list[i][1]}')
+
+    return
+
     
 
