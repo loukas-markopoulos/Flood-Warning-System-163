@@ -10,8 +10,8 @@ from .utils import sorted_by_key  # noqa
 from haversine import haversine
 
 
-# C
-#returns a list of all stations (type MonitoringStation) within radius r of a geographic coordinate x
+# 1C
+# returns a list of all stations (type MonitoringStation) within radius r of a geographic coordinate x
 def stations_within_radius(stations, centre, r):
 
     close_stations = []
@@ -24,7 +24,7 @@ def stations_within_radius(stations, centre, r):
     return close_stations
 
 
-# B
+# 1B
 def stations_by_distance(stations, p):
 
     station_distance = []
@@ -37,7 +37,7 @@ def stations_by_distance(stations, p):
     return sorted_by_key(station_distance, 2)
 
 
-# D
+# 1D
 def rivers_with_station(stations):
     rivers = set()
 
@@ -66,7 +66,7 @@ def stations_by_river(stations):
     return stations_on_river
 
 
-# E
+# 1E
 def rivers_by_station_number(stations, N):
     #create list for tuples
     #create tuple of (dictionary key, length of dictionary value)
@@ -86,7 +86,6 @@ def rivers_by_station_number(stations, N):
     i = 1
     while sorted_river_statnumber[-N][1] == sorted_river_statnumber[-(N + i)][1]:
         i += 1
-
 
     final_list = []
 
