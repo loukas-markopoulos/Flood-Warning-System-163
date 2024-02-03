@@ -87,3 +87,4 @@ def update_water_levels(stations):
         if station.measure_id in measure_id_to_value:
             if isinstance(measure_id_to_value[station.measure_id], float):
                 station.latest_level = measure_id_to_value[station.measure_id]
+
