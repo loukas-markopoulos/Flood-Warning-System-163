@@ -1,6 +1,8 @@
 import numpy as np
 from matplotlib.dates import date2num
 
+# 2F
+#plot of dates and levels
 def polyfit(dates, levels, p):
 
     x = date2num(dates)
