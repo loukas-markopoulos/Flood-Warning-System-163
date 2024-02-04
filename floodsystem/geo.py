@@ -81,15 +81,16 @@ def rivers_by_station_number(stations, N):
         tuple = (river, len(stations_on_river[river]))
         river_statnumber.append(tuple)
     
-    sorted_river_statnumber = sorted_by_key(river_statnumber, 1)
-
-    i = 1
-    while sorted_river_statnumber[-N][1] == sorted_river_statnumber[-(N + i)][1]:
-        i += 1
+    sorted_river_statnumber = sorted_by_key(river_statnumber, 1, True)
 
     final_list = []
+    for i in range (N):
+        final_list.append(sorted_river_statnumber[i])
+    for i in range (N, len(sorted_river_statnumber)):
+        if sorted_river_statnumber[i][1] == sorted_river_statnumber[N-1][1]:
+            final_list.append(sorted_river_statnumber[i])
+        else:
+            break
 
-    for j in range(N + i - 1):
-        final_list.append(sorted_river_statnumber[- j - 1])
     
-    print(f'{final_list}')
+    return final_list
