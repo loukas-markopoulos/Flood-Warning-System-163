@@ -5,6 +5,7 @@ from matplotlib.dates import date2num
 from floodsystem.datafetcher import fetch_measure_levels
 from floodsystem.stationdata import build_station_list, update_water_levels
 from floodsystem.station import MonitoringStation
+from floodsystem.flood import stations_over_level_threshold
 
 #function returning the gradient and second differential- include approximation for 0
 def gradient_and_second_deriv(levels, dates, p):
@@ -130,26 +131,31 @@ def danger_lists():
     medium_list = []
     low_list = []
 
-    for station in stations:
+    list = stations_over_level_threshold(stations, 0.0)
 
-        if MonitoringStation.typical_range_consistent(station) is True:
-        
-            dt = 5 # p=5.over the past 5 days 
+    for i in range(len(list)):
+        station_name = list[i][0]
+        for station in stations:
+                if station.name == station_name:
+                    station_object = station
+                    break
+            
+        dt = 5 # p=5.over the past 5 days 
 
-            dates, levels = fetch_measure_levels(
-            station.measure_id, dt=datetime.timedelta(days=dt))
+        dates, levels = fetch_measure_levels(
+        station_object.measure_id, dt=datetime.timedelta(days=dt))
 
-            recent_level = levels[-1]
-   
-            grad = gradient_and_second_deriv(levels, dates, dt)[0]
-            second_differential = gradient_and_second_deriv(levels, dates, dt)[1]
+        recent_level = levels[-1]
+    
+        grad = gradient_and_second_deriv(levels, dates, dt)[0]
+        second_differential = gradient_and_second_deriv(levels, dates, dt)[1]
 
-            rel_high = station.typical_range[1]
-            X = X_Y_Z(station)[0]
-            Y = X_Y_Z(station)[1]
-            Z = X_Y_Z(station)[2]
+        rel_high = station.typical_range[1]
+        X = X_Y_Z(station_object)[0]
+        Y = X_Y_Z(station_object)[1]
+        Z = X_Y_Z(station_object)[2]
 
-            append_station_to_list(recent_level, grad, second_differential, X, Y, Z, rel_high, station, severe_list, high_list, medium_list, low_list)
+        append_station_to_list(recent_level, grad, second_differential, X, Y, Z, rel_high, station_object, severe_list, high_list, medium_list, low_list)
     
     seperate_lists_of_stations_list = []
     seperate_lists_of_stations_list.append(severe_list)
