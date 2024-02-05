@@ -33,9 +33,9 @@ def gradient_and_second_deriv(levels, dates, p):
 #function returning a tuple of (X, Y, Z) for each station 
 def X_Y_Z(station):
 
-    X = (station.typical_range[1]) * 0. #determine value for X
-    Y = (station.typical_range[1]) * 1. #determine value for Y 
-    Z = (station.typical_range[1]) * 1. #determine value for Z
+    X = (station.typical_range[1]) * 0.8 #determine value for X
+    Y = (station.typical_range[1]) * 1.3 #determine value for Y 
+    Z = (station.typical_range[1]) * 1.7 #determine value for Z
 
     return (X, Y, Z)
 
@@ -121,20 +121,17 @@ def append_station_to_list(recent_level, grad, second_differential, X, Y, Z, rel
         low_list.append(station)
 
 #function creating the list of stations for S, H, M, L 
-def danger_lists():
-
-    stations = build_station_list()
-    update_water_levels(stations)
+def danger_lists(stations):
     
     severe_list = []
     high_list = []
     medium_list = []
     low_list = []
 
-    list = stations_over_level_threshold(stations, 0.0)
+    list_of_stations = stations_over_level_threshold(stations, 0.0)
 
-    for i in range(len(list)):
-        station_name = list[i][0]
+    for i in range(len(list_of_stations)):
+        station_name = list_of_stations[i][0]
         for station in stations:
                 if station.name == station_name:
                     station_object = station
@@ -145,18 +142,19 @@ def danger_lists():
         dates, levels = fetch_measure_levels(
         station_object.measure_id, dt=datetime.timedelta(days=dt))
 
-        recent_level = levels[-1]
-    
-        grad = gradient_and_second_deriv(levels, dates, dt)[0]
-        second_differential = gradient_and_second_deriv(levels, dates, dt)[1]
+        if len(levels) != 0:
+            recent_level = levels[-1]
 
-        rel_high = station.typical_range[1]
-        X = X_Y_Z(station_object)[0]
-        Y = X_Y_Z(station_object)[1]
-        Z = X_Y_Z(station_object)[2]
+            grad = gradient_and_second_deriv(levels, dates, dt)[0]
+            second_differential = gradient_and_second_deriv(levels, dates, dt)[1]
 
-        append_station_to_list(recent_level, grad, second_differential, X, Y, Z, rel_high, station_object, severe_list, high_list, medium_list, low_list)
-    
+            rel_high = station.typical_range[1]
+            X = X_Y_Z(station_object)[0]
+            Y = X_Y_Z(station_object)[1]
+            Z = X_Y_Z(station_object)[2]
+
+            append_station_to_list(recent_level, grad, second_differential, X, Y, Z, rel_high, station_object, severe_list, high_list, medium_list, low_list)
+        
     seperate_lists_of_stations_list = []
     seperate_lists_of_stations_list.append(severe_list)
     seperate_lists_of_stations_list.append(high_list)
