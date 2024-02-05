@@ -4,7 +4,7 @@ from floodsystem.analysis import polyfit
 from matplotlib.dates import date2num
 from floodsystem.datafetcher import fetch_measure_levels
 from floodsystem.stationdata import build_station_list, update_water_levels
-from floodsystem.station import typical_range_consistent
+from floodsystem.station import MonitoringStation
 
 #function returning the gradient and second differential- include approximation for 0
 def gradient_and_second_deriv(levels, dates, p):
@@ -15,13 +15,15 @@ def gradient_and_second_deriv(levels, dates, p):
     gradient_function = water_level_plot.deriv()
     grad = gradient_function(numdates[-1]) 
 
-    if abs(grad) < #threshold 0 gradient value
+    # threshold 0 gradient value is set to 0 here
+    if abs(grad) < 0:
         grad = 0
 
     second_differential_function = gradient_function.deriv()
     second_differential = second_differential_function(numdates[-1])
 
-    if abs(second_differential) < #threshold 0 second differential value
+    # threshold 0 second differential value is set to 0 here
+    if abs(second_differential) < 0:
         second_differential = 0
     
     return (grad, second_differential)
@@ -130,15 +132,17 @@ def danger_lists():
 
     for station in stations:
 
-        if typical_range_consistent(station) is True:
+        if MonitoringStation.typical_range_consistent(station) is True:
         
+            dt = 5 # p=5.over the past 5 days 
+
             dates, levels = fetch_measure_levels(
             station.measure_id, dt=datetime.timedelta(days=dt))
 
             recent_level = levels[-1]
    
-            grad = gradient_and_second_deriv(levels, dates, N)[0]
-            second_differential = gradient_and_second_deriv(levels, dates, N)[1]
+            grad = gradient_and_second_deriv(levels, dates, dt)[0]
+            second_differential = gradient_and_second_deriv(levels, dates, dt)[1]
 
             rel_high = station.typical_range[1]
             X = X_Y_Z(station)[0]
