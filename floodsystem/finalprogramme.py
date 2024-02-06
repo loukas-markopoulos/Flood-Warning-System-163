@@ -130,14 +130,14 @@ def danger_lists(stations):
 
     list_of_stations = stations_over_level_threshold(stations, 0.0)
 
-    for i in range(len(list_of_stations)):
+    for i in range(5):
         station_name = list_of_stations[i][0]
         for station in stations:
                 if station.name == station_name:
                     station_object = station
                     break
             
-        dt = 5 # p=5.over the past 5 days 
+        dt = 3 # p=5.over the past 5 days 
 
         dates, levels = fetch_measure_levels(
         station_object.measure_id, dt=datetime.timedelta(days=dt))
