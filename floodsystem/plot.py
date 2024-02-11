@@ -36,7 +36,6 @@ def plot_water_level_with_fit(station, dates, levels, p):
             indicies.append(i)
     
     x = np.delete(x, indicies)
-    print(x)
 
     if poly != None and d0 != None:
 
