@@ -16,13 +16,11 @@ def stations_over_level_threshold(stations, tol):
     return sorted_list
 
 # 2C
-
 def stations_highest_rel_level(stations, N):
     list = stations_over_level_threshold(stations, 0.0)
-    for i in range(N):
-        print(f'{list[i][0]} {list[i][1]}')
+    sorted_list = sorted_by_key(list, 1, True)[0:N]
 
-    return
+    return sorted_list
 
     
 
