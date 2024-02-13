@@ -25,7 +25,7 @@ def gradient_and_second_deriv(levels, dates, p):
         x = np.delete(x, indicies)
 
         #ERROR IS ON THIS LINE
-        recent_date = x[-1] - d0 + 2.0
+        recent_date = max(x) - d0 
 
         print(f'Recent date value: {recent_date}')
 
@@ -33,14 +33,14 @@ def gradient_and_second_deriv(levels, dates, p):
         grad = gradient_function(recent_date) 
 
         # threshold 0 gradient value is set to 0 here
-        if abs(grad) < 0.5:
+        if abs(grad) < 0.1:
             grad = 0
 
         second_differential_function = gradient_function.deriv()
         second_differential = second_differential_function(recent_date)
 
         # threshold 0 second differential value is set to 0 here
-        if abs(second_differential) < 0.5:
+        if abs(second_differential) < 0.1:
             second_differential = 0
         
         data = [grad, second_differential]
