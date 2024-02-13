@@ -19,7 +19,7 @@ def run():
                 station_object = station
                 break
         
-        dt = 2
+        dt = 10
         dates, levels = fetch_measure_levels(station_object.measure_id, dt=datetime.timedelta(days=dt))
         
         
