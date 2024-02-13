@@ -17,8 +17,11 @@ def plot_water_levels(station, dates, levels):
 
     plt.tight_layout()
 
-    plt.axhline(y = f'{station.typical_range[0]}', color = 'r')
-    plt.axhline(y = f'{station.typical_range[1]}', color = 'r')
+    low_level_list = [station.typical_range[0]]*len(dates)
+    high_level_list = [station.typical_range[1]]*len(dates)
+
+    plt.plot(dates, low_level_list, color = 'r')
+    plt.plot(dates, high_level_list, color = 'r')
 
     plt.show()
 
@@ -46,8 +49,11 @@ def plot_water_level_with_fit(station, dates, levels, p):
 
         plt.tight_layout()
 
-        plt.axhline(y = f'{station.typical_range[0]}', color = 'r')
-        plt.axhline(y = f'{station.typical_range[1]}', color = 'r')
+        low_level_list = [station.typical_range[0]]*len(dates)
+        high_level_list = [station.typical_range[1]]*len(dates)
+
+        plt.plot(dates, low_level_list, color = 'r')
+        plt.plot(dates, high_level_list, color = 'r')
 
         plt.show()
 
