@@ -25,7 +25,7 @@ def gradient_and_second_deriv(levels, dates, p):
         x = np.delete(x, indicies)
 
         recent_date = x[0] - d0
-
+        # print(f'recent date: {recent_date}')
 
         gradient_function = water_level_plot.deriv()
         grad = gradient_function(recent_date) 
@@ -41,6 +41,8 @@ def gradient_and_second_deriv(levels, dates, p):
         if abs(second_differential) < 0.1:
             second_differential = 0
         
+        # print(f'grad and second diff: {grad}, {second_differential}')
+        
         data = [grad, second_differential]
 
         return data
@@ -53,9 +55,11 @@ def gradient_and_second_deriv(levels, dates, p):
 def X_Y_Z(station):
 
     X = (station.typical_range[1]) * 0.8 #determine value for X
-    Y = (station.typical_range[1]) * 1.2 #determine value for Y 
-    Z = (station.typical_range[1]) * 1.5 #determine value for Z
+    Y = (station.typical_range[1]) * 2.0 #determine value for Y 
+    Z = (station.typical_range[1]) * 3.0 #determine value for Z
     threshold_values = [X, Y, Z]
+
+    # print(f'threshold values: {station.typical_range[1]}, {X}, {Y}, {Z}')
 
     return threshold_values
 
@@ -173,7 +177,7 @@ def danger_lists(stations):
     medium_list = []
     low_list = []
 
-    N = 5
+    N = 5 # number of stations analysed 
 
     list_of_stations = stations_over_level_threshold(stations, 0.0)
 
@@ -190,7 +194,9 @@ def danger_lists(stations):
         station_object.measure_id, dt=datetime.timedelta(days=dt))
 
         if len(levels) != 0:
-            recent_level = levels[-1]
+            recent_level = levels[0]
+
+            # print(f'{recent_level}')
 
             grad = (gradient_and_second_deriv(levels, dates, 5))[0]
             second_differential = (gradient_and_second_deriv(levels, dates, 5))[1]
@@ -241,18 +247,32 @@ def list_of_towns(seperate_lists_of_stations_list):
 #function printing the seperate lists
 def final_print(seperate_lists_of_towns_list):
 
-    print('Towns at severe risk are:')
-    for i in seperate_lists_of_towns_list[0]:
-        print(f'{i}')
+    if len(seperate_lists_of_towns_list[0]) == 0:
+        print('No towns are at severe risk.')
+    else:
+        print('Towns at severe risk are:')
+        for i in seperate_lists_of_towns_list[0]:
+            print(f'{i}')
     
-    print('Towns at high risk are:')
-    for i in seperate_lists_of_towns_list[1]:
-        print(f'{i}')
+    if len(seperate_lists_of_towns_list[1]) == 0:
+        print('No towns are at high risk.')
+    else:
+        print('Towns at high risk are:')
+        for i in seperate_lists_of_towns_list[1]:
+            print(f'{i}')
+    
+    if len(seperate_lists_of_towns_list[2]) == 0:
+        print('No towns are at medium risk.')
+    else:
+        print('Towns at medium risk are:')
+        for i in seperate_lists_of_towns_list[2]:
+            print(f'{i}')
 
-    print('Towns at medium risk are:')
-    for i in seperate_lists_of_towns_list[2]:
-        print(f'{i}')
-
-    print('Towns at low risk are:')
-    for i in seperate_lists_of_towns_list[3]:
-        print(f'{i}')
+    if len(seperate_lists_of_towns_list[3]) == 0:
+        print('No towns are at low risk.')
+    else:
+        print('Towns at low risk are:')
+        for i in seperate_lists_of_towns_list[3]:
+            print(f'{i}')
+    
+    

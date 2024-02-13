@@ -23,7 +23,7 @@ def run():
         dates, levels = fetch_measure_levels(station_object.measure_id, dt=datetime.timedelta(days=dt))
         
         
-        plot_water_level_with_fit(station, dates, levels, 4)
+        plot_water_level_with_fit(station, dates, levels, 5)
 
         #to check the shape of the graph
         plot_water_levels(station_object, dates, levels)
