@@ -6,29 +6,49 @@ from floodsystem.datafetcher import fetch_measure_levels
 from floodsystem.stationdata import build_station_list, update_water_levels
 from floodsystem.station import MonitoringStation
 from floodsystem.flood import stations_over_level_threshold
+import numpy as np
+import math as math
 
 #function returning the gradient and second differential- include approximation for 0
 def gradient_and_second_deriv(levels, dates, p):
-    numdates = date2num(dates)
 
-    water_level_plot = polyfit(dates, levels, p)[0]
+    if polyfit(dates, levels, p)[0] != None and polyfit(dates, levels, p)[1] != None:
 
-    gradient_function = water_level_plot.deriv()
-    grad = gradient_function(numdates[-1]) 
+        water_level_plot, d0 = polyfit(dates, levels, p)
 
-    # threshold 0 gradient value is set to 0 here
-    if abs(grad) < 0.5:
-        grad = 0
+        x = date2num(dates)
 
-    second_differential_function = gradient_function.deriv()
-    second_differential = second_differential_function(numdates[-1])
+        indicies = []
+        for i in range(len(x)):
+            if math.isnan(x[i]) == True:
+                indicies.append(i) 
+        x = np.delete(x, indicies)
 
-    # threshold 0 second differential value is set to 0 here
-    if abs(second_differential) < 0.5:
-        second_differential = 0
+        #ERROR IS ON THIS LINE
+        recent_date = x[-1] - d0 + 2.0
+
+        print(f'Recent date value: {recent_date}')
+
+        gradient_function = water_level_plot.deriv()
+        grad = gradient_function(recent_date) 
+
+        # threshold 0 gradient value is set to 0 here
+        if abs(grad) < 0.5:
+            grad = 0
+
+        second_differential_function = gradient_function.deriv()
+        second_differential = second_differential_function(recent_date)
+
+        # threshold 0 second differential value is set to 0 here
+        if abs(second_differential) < 0.5:
+            second_differential = 0
+        
+        data = [grad, second_differential]
+
+        return data
     
-    data = [grad, second_differential]
-    return data
+    else:
+        return
 
 
 #function returning a tuple of (X, Y, Z) for each station 
@@ -38,6 +58,8 @@ def X_Y_Z(station):
     Y = (station.typical_range[1]) * 1.2 #determine value for Y 
     Z = (station.typical_range[1]) * 1.5 #determine value for Z
     threshold_values = [X, Y, Z]
+
+    print(f'Threshold values: {station.typical_range[1]}, {X}, {Y}, {Z}')
 
     return threshold_values
 
@@ -174,8 +196,12 @@ def danger_lists(stations):
         if len(levels) != 0:
             recent_level = levels[-1]
 
+            print(f'recent level: {recent_level}')
+
             grad = (gradient_and_second_deriv(levels, dates, 5))[0]
             second_differential = (gradient_and_second_deriv(levels, dates, 5))[1]
+
+            print(f'grad and second diff: {grad}, {second_differential}')
 
             rel_high = station.typical_range[1]
             X = X_Y_Z(station_object)[0]
