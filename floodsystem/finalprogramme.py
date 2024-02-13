@@ -24,10 +24,8 @@ def gradient_and_second_deriv(levels, dates, p):
                 indicies.append(i) 
         x = np.delete(x, indicies)
 
-        #ERROR IS ON THIS LINE
-        recent_date = max(x) - d0 
+        recent_date = x[0] - d0
 
-        print(f'Recent date value: {recent_date}')
 
         gradient_function = water_level_plot.deriv()
         grad = gradient_function(recent_date) 
@@ -58,8 +56,6 @@ def X_Y_Z(station):
     Y = (station.typical_range[1]) * 1.2 #determine value for Y 
     Z = (station.typical_range[1]) * 1.5 #determine value for Z
     threshold_values = [X, Y, Z]
-
-    print(f'Threshold values: {station.typical_range[1]}, {X}, {Y}, {Z}')
 
     return threshold_values
 
@@ -188,7 +184,7 @@ def danger_lists(stations):
                     station_object = station
                     break
             
-        dt = 10 # p=5.over the past 5 days 
+        dt = 10 # eg dt=5.over the past 5 days 
 
         dates, levels = fetch_measure_levels(
         station_object.measure_id, dt=datetime.timedelta(days=dt))
@@ -196,12 +192,9 @@ def danger_lists(stations):
         if len(levels) != 0:
             recent_level = levels[-1]
 
-            print(f'recent level: {recent_level}')
-
             grad = (gradient_and_second_deriv(levels, dates, 5))[0]
             second_differential = (gradient_and_second_deriv(levels, dates, 5))[1]
 
-            print(f'grad and second diff: {grad}, {second_differential}')
 
             rel_high = station.typical_range[1]
             X = X_Y_Z(station_object)[0]
