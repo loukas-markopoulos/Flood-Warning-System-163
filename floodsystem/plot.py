@@ -49,11 +49,11 @@ def plot_water_level_with_fit(station, dates, levels, p):
 
         plt.tight_layout()
 
-        low_level_list = [station.typical_range[0]]*len(dates)
-        high_level_list = [station.typical_range[1]]*len(dates)
+        low_level_list = [station.typical_range[0]]*len(x)
+        high_level_list = [station.typical_range[1]]*len(x)
 
-        plt.plot(dates, low_level_list, color = 'r')
-        plt.plot(dates, high_level_list, color = 'r')
+        plt.plot(x-d0, low_level_list, color = 'r')
+        plt.plot(x-d0, high_level_list, color = 'r')
 
         plt.show()
 
