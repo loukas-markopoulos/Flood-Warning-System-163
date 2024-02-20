@@ -8,6 +8,9 @@ from matplotlib.dates import date2num
 # 2E
 def plot_water_levels(station, dates, levels):
 
+    if len(dates) != len(levels):
+        raise IndexError
+
     plt.plot(dates, levels)
 
     plt.xlabel('date')
@@ -30,6 +33,9 @@ def plot_water_levels(station, dates, levels):
 # polynomial best fit plot
 # 2F
 def plot_water_level_with_fit(station, dates, levels, p):
+
+    if len(dates) != len(levels):
+        raise IndexError
     
     poly, d0 = polyfit(dates, levels, p)
     x = date2num(dates)

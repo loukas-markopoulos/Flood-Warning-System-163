@@ -54,10 +54,13 @@ def gradient_and_second_deriv(levels, dates, p):
 #function returning a tuple of (X, Y, Z) for each station 
 def X_Y_Z(station):
 
-    X = (station.typical_range[1]) * 0.8 #determine value for X
-    Y = (station.typical_range[1]) * 2.0 #determine value for Y 
-    Z = (station.typical_range[1]) * 3.0 #determine value for Z
-    threshold_values = [X, Y, Z]
+    if MonitoringStation.typical_range_consistent(station) is True:
+        X = (station.typical_range[1]) * 0.8 #determine value for X
+        Y = (station.typical_range[1]) * 2.0 #determine value for Y 
+        Z = (station.typical_range[1]) * 3.0 #determine value for Z
+        threshold_values = [X, Y, Z]
+    else:
+        threshold_values = [None, None, None]
 
     # print(f'threshold values: {station.typical_range[1]}, {X}, {Y}, {Z}')
 
@@ -103,7 +106,7 @@ def append_station_to_list(recent_level, grad, second_differential, X, Y, Z, rel
             medium_list.append(station)
             return
             
-        elif grad < 0 and second_differential > 0:
+        elif grad < 0 and second_differential < 0:
             high_list.append(station)
             return
         
@@ -193,7 +196,7 @@ def danger_lists(stations):
         dates, levels = fetch_measure_levels(
         station_object.measure_id, dt=datetime.timedelta(days=dt))
 
-        if len(levels) != 0:
+        if len(levels) != 0 and MonitoringStation.typical_range_consistent(station_object) is True:
             recent_level = levels[0]
 
             # print(f'{recent_level}')
@@ -208,7 +211,9 @@ def danger_lists(stations):
             Z = X_Y_Z(station_object)[2]
 
             append_station_to_list(recent_level, grad, second_differential, X, Y, Z, rel_high, station_object, severe_list, high_list, medium_list, low_list)
-        
+        else:
+            break
+
     seperate_lists_of_stations_list = []
     seperate_lists_of_stations_list.append(severe_list)
     seperate_lists_of_stations_list.append(high_list)

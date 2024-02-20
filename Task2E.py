@@ -22,7 +22,6 @@ def run():
         dates, levels = fetch_measure_levels(
         station_object.measure_id, dt=datetime.timedelta(days=dt))
         
-        
         plot_water_levels(station_object, dates, levels)
     
 run()
