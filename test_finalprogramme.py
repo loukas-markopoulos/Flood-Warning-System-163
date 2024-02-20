@@ -38,8 +38,8 @@ severe_list, high_list, medium_list, low_list = [], [], [], []
 def test_append_station_to_list():
     append_station_to_list(250, -10, 30, 80, 200, 300, Test1.typical_range[1], Test1.name, severe_list, high_list, medium_list, low_list)
     append_station_to_list(1500, 0, 20, 800, 2000, 3000, Test2.typical_range[1], Test2.name, severe_list, high_list, medium_list, low_list)
-    assert medium_list == [Test1]
-    assert high_list == [Test2]
+    assert medium_list == [Test1.name]
+    assert high_list == [Test2.name]
 
 
 test_append_station_to_list()

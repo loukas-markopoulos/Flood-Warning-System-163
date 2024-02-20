@@ -229,17 +229,21 @@ def list_of_towns(seperate_lists_of_stations_list):
     medium_towns = []
     low_towns = []
 
-    for station in seperate_lists_of_stations_list[0]:
-        severe_towns.append(station.town)
+    if seperate_lists_of_stations_list[0] != []:
+        for station in seperate_lists_of_stations_list[0]:
+            severe_towns.append(station.town)
 
-    for station in seperate_lists_of_stations_list[1]:
-        high_towns.append(station.town)
+    if seperate_lists_of_stations_list[1] != []:
+        for station in seperate_lists_of_stations_list[1]:
+            high_towns.append(station.town)
 
-    for station in seperate_lists_of_stations_list[2]:
-        medium_towns.append(station.town)
+    if seperate_lists_of_stations_list[2] != []:
+        for station in seperate_lists_of_stations_list[2]:
+            medium_towns.append(station.town)
 
-    for station in seperate_lists_of_stations_list[3]:
-        low_towns.append(station.town)
+    if seperate_lists_of_stations_list[3] != []:
+        for station in seperate_lists_of_stations_list[3]:
+            low_towns.append(station.town)
     
     seperate_lists_of_towns_list = []
     seperate_lists_of_towns_list.append(severe_towns)
