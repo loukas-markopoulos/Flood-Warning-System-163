@@ -38,8 +38,8 @@ severe_list, high_list, medium_list, low_list = [], [], [], []
 def test_append_station_to_list():
     append_station_to_list(250, -10, 30, 80, 200, 300, Test1.typical_range[1], Test1.name, severe_list, high_list, medium_list, low_list)
     append_station_to_list(1500, 0, 20, 800, 2000, 3000, Test2.typical_range[1], Test2.name, severe_list, high_list, medium_list, low_list)
-    assert medium_list == [Test1.name]
-    assert high_list == [Test2.name]
+    assert medium_list == [Test1]
+    assert high_list == [Test2]
 
 
 test_append_station_to_list()
@@ -54,7 +54,7 @@ separate_lists_of_stations_list = [severe_list, high_list, medium_list, low_list
 
 def test_list_of_towns():
     separate_lists_of_towns_list = list_of_towns(separate_lists_of_stations_list)
-    assert separate_lists_of_towns_list == [["Test1 town"], ["Test2 town"], ["Test3 town"], []]
+    assert separate_lists_of_towns_list == [[Test1.town], [Test2.town], [Test3.town], []]
 
 
 test_list_of_towns()
